@@ -11,7 +11,7 @@ export interface Issue {
 export async function getConnectorIssues() : Promise<Issue[]> {
     const response = await fetch(
         `${github_url}/issues?state=open&labels=Website%20Change`,
-        { cache: "force-cache" }
+        import.meta.env.DEV ? { cache: "force-cache" } : {}
     );
     const result= await response.json();
     if (response.status!==200) throw new Error(result.message);
@@ -32,7 +32,7 @@ export async function getRecentCompletedIssues() : Promise <Issue[]> {
     // Get recent fix
     const response = await fetch(
         `${github_url}/issues?state=closed&labels=Website%20Change&since=${aMonthsAgo.toISOString()}`,
-        { cache: "force-cache" }
+        import.meta.env.DEV ? { cache: "force-cache" } : {}
     );
     const result_raw= await response.json();
     if (response.status!==200) throw new Error(result_raw.message);
